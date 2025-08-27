@@ -1,0 +1,97 @@
+// ZMK Behaviors Configuration
+&mt {
+  flavor = "balanced";
+  tapping-term-ms = <TAPPING_TERM_MS>;
+  quick-tap-ms = <QUICK_TAP_MS>;
+  require-prior-idle-ms = <REQUIRE_PRIOR_IDLE_MS>;
+};
+
+&lt {
+  flavor = "balanced";
+  tapping-term-ms = <TAPPING_TERM_MS>;
+  quick-tap-ms = <QUICK_TAP_MS>;
+  require-prior-idle-ms = <REQUIRE_PRIOR_IDLE_MS>;
+};
+
+&sk {
+  quick-release;
+};
+
+
+/ {
+  behaviors {
+    /*
+    Simplified behaviors for 3-layer design
+    Removed home row mods in favor of pinky modifiers
+    Added triple-tap utilities layer access
+    */
+
+    /*
+    Triple-tap Ctrl to access utilities layer
+    - tap: /
+    - hold: Ctrl
+    - triple-tap: momentary utilities layer
+    */
+    /omit-if-no-ref/ ctrl_utils: ctrl_utils_tap_dance {
+      compatible = "zmk,behavior-tap-dance";
+      label = "CTRL_UTILS_TAP_DANCE";
+      #binding-cells = <0>;
+      tapping-term-ms = <300>;
+      bindings = <&mt RCTRL SLASH>, <&mt RCTRL SLASH>, <&mo UT>;
+    };
+
+    /*
+    - tap: sticky shift
+    - double-tap: caps-word (shift + tap mod-morph)
+    - hold: shift
+
+    From: https://github.com/urob/zmk-config/
+    */
+    /omit-if-no-ref/ smart_shift: smart_shift {
+      compatible = "zmk,behavior-mod-morph";
+      bindings = <&sk RSHFT>, <&caps_word>;
+      mods = <(MOD_RSFT)>;
+      #binding-cells = <0>;
+    };
+
+
+    /*
+    - tap: backspace
+    - hold: repeat backspace
+    - shift + tap: delete
+    - shift + hold: repeat delete
+
+    From: https://zmk.dev/docs/behaviors/mod-morph#advanced-configuration
+    */
+    /omit-if-no-ref/ bkspc_del: backspace_delete {
+      compatible = "zmk,behavior-mod-morph";
+      bindings = <&kp BACKSPACE>, <&kp DELETE>;
+      mods = <(MOD_LSFT|MOD_RSFT)>;
+      #binding-cells = <0>;
+    };
+
+    /*
+    - tap: #
+    - double tap: ##
+    */
+    /omit-if-no-ref/ hash_td: tap_dance_hash {
+      compatible = "zmk,behavior-tap-dance";
+      label = "TAP_DANCE_DASH";
+      #binding-cells = <0>;
+      tapping-term-ms = <200>;
+      bindings = <&kp HASH>, <&TRIPLE_HASH>;
+    };
+
+    /*
+    - tap: reset keyboard
+    - hold: enter bootloader mode
+    */
+    /omit-if-no-ref/ rst_boot: rst_boot {
+        compatible = "zmk,behavior-hold-tap";
+        #binding-cells = <2>;
+        tapping-term-ms = <500>;
+        flavor = "tap-preferred";
+        bindings = <&bootloader>, <&sys_reset>;
+    };
+  };
+};
