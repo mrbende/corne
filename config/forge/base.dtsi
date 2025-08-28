@@ -9,6 +9,7 @@
 #define L0 0  // Base/QWERTY
 #define SY 1  // Symbols/Numbers
 #define UT 2  // Utilities/Keyboard Functions
+#define NAV 3 // Navigation/Function Keys
 
 // Meh key
 #define MEH LS(LC(LALT))
@@ -46,3 +47,10 @@
 
 // Utilities layer
 #include "L2_utilities.dtsi"
+
+// Navigation layer
+#include "L3_navigation.dtsi"
+
+
+
+

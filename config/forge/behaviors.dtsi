@@ -27,6 +27,22 @@
     */
 
     /*
+    ESC hold-tap to access navigation layer
+    - tap: ESC
+    - hold: momentary navigation layer
+    */
+    /omit-if-no-ref/ esc_nav: esc_nav_hold_tap {
+      compatible = "zmk,behavior-hold-tap";
+      label = "ESC_NAV_HOLD_TAP";
+      #binding-cells = <2>;
+      tapping-term-ms = <TAPPING_TERM_MS>;
+      quick-tap-ms = <QUICK_TAP_MS>;
+      require-prior-idle-ms = <REQUIRE_PRIOR_IDLE_MS>;
+      flavor = "tap-preferred";
+      bindings = <&mo>, <&kp>;
+    };
+
+    /*
     Triple-tap Ctrl to access utilities layer
     - tap: /
     - hold: Ctrl
